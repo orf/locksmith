@@ -1,3 +1,7 @@
 .idea/
 .venv
 docker/docker-postgres/*
+
+# Added by cargo
+
+/target
