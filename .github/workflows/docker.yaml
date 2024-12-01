@@ -19,6 +19,7 @@ jobs:
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@v4
         with:
+          enable-cache: true
           version: "latest"
 
       - uses: docker/login-action@v3
