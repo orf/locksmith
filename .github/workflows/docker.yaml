@@ -46,6 +46,3 @@ jobs:
           targets: |
             12
             13
-
-#          set: |
-#            repository=value
