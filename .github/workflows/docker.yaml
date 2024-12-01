@@ -5,7 +5,18 @@ on:
 
 jobs:
   docker:
+    name: build-pg-${{ matrix.pg-version }}
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        pg-version:
+          - "12"
+          - "13"
+#          - "14"
+#          - "15"
+#          - "16"
+#          - "17"
 
     permissions:
       contents: read
@@ -35,11 +46,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-#      - name: Extract metadata
-#        id: meta
-#        uses: docker/metadata-action@v5
-#        with:
-#          images: ghcr.io/${{ github.repository }}
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
 
       - name: Patch Docker
         working-directory: docker/
@@ -55,15 +66,16 @@ jobs:
         with:
           workdir: 'docker/'
           push: true
-          targets: |
-            12
-#            13
+          targets: ${{ matrix.pg_version }}
           set: |
+            *.platforms=linux/amd64,linux/arm64
             *.cache-to=type=gha
             *.cache-from=type=gha
+            *.labels=${{ steps.meta.outputs.labels }}
+            *.annotations=${{ steps.meta.outputs.annotations }}
 
-      -  name: Log output
-         run: echo ${{ steps.docker-build.outputs.metadata }}
+      - name: Log output
+        run: echo ${{ steps.docker-build.outputs.metadata }}
 #      - name: Generate artifact attestation
 #        uses: actions/attest-build-provenance@v1
 #        with:
