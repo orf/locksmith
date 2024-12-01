@@ -70,7 +70,7 @@ jobs:
         with:
           workdir: 'docker/'
           push: true
-          targets: ${{ matrix.pg_version }}
+          targets: ${{ matrix.pg-version }}
           pull: true
           set: |
             *.platform=linux/amd64,linux/arm64

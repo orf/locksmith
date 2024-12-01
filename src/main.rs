@@ -5,9 +5,11 @@ use futures_util::{
     future, join, pin_mut, stream, try_join, Future, FutureExt, SinkExt, StreamExt, TryStreamExt,
 };
 use futures_channel::mpsc;
+use crate::lock::LockParser;
 
 #[tokio::main] // By default, tokio_postgres uses the tokio crate as its runtime.
 async fn main() -> Result<(), Error> {
+    let parser = LockParser::new();
     // Connect to the database.
     let (client, mut connection) =
         tokio_postgres::connect("host=localhost user=postgres password=password", NoTls).await?;
@@ -50,11 +52,14 @@ async fn main() -> Result<(), Error> {
         .await;
     for notice in notices {
         if notice.file() == Some("lock.c") && notice.message().contains("lock(") {
-
-            eprintln!("{}", notice.message());
-            // eprintln!("{:#?}", notice);
+            // eprintln!("{}", notice.message());
+            let lock = parser.extract(notice.message());
+            if let Some(lock) = lock {
+                if !lock.is_invalid() {
+                    eprintln!("{}", lock);
+                }
+            }
         }
-
     }
     Ok(())
 }

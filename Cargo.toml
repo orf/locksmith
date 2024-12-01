@@ -4,8 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+derive_more = { version = "1.0.0", features = ["display", "from_str"] }
 futures-channel = "0.3.31"
 futures-util = "0.3.31"
 regex = "1.11.1"
+regex_static = "0.1.1"
 tokio = { version = "1.41.1", features = ["full"] }
 tokio-postgres = "0.7.12"
