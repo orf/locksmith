@@ -6,6 +6,13 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,6 +48,7 @@ jobs:
           uv run patch_docker.py
 
       - name: Build and push
+        id: docker-build
         uses: docker/bake-action@v5
         env:
           IMAGE_REPOSITORY: ghcr.io/${{ github.repository }}
@@ -53,3 +61,12 @@ jobs:
           set: |
             *.cache-to=type=gha
             *.cache-from=type=gha
+
+      -  name: Log output
+         run: echo ${{ steps.docker.outputs.metadata }}
+#      - name: Generate artifact attestation
+#        uses: actions/attest-build-provenance@v1
+#        with:
+#          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+#          subject-digest: ${{ steps.push.outputs.digest }}
+#          push-to-registry: true
