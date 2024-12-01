@@ -3,10 +3,14 @@ name: Build Docker
 on:
   workflow_dispatch:
 
+
 jobs:
   docker:
     name: build-pg-${{ matrix.pg-version }}
     runs-on: ubuntu-latest
+
+    concurrency:
+      group: push-docker-${{ matrix.pg-version }}
 
     strategy:
       matrix:
