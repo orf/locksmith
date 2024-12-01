@@ -1,10 +1,12 @@
 mod lock;
+mod introspection;
 
 use tokio_postgres::{NoTls, Error, AsyncMessage};
 use futures_util::{
     future, join, pin_mut, stream, try_join, Future, FutureExt, SinkExt, StreamExt, TryStreamExt,
 };
 use futures_channel::mpsc;
+use crate::introspection::list_server_objects;
 use crate::lock::LockParser;
 
 #[tokio::main] // By default, tokio_postgres uses the tokio crate as its runtime.
@@ -34,12 +36,14 @@ async fn main() -> Result<(), Error> {
     client.execute("drop table if exists test;", &[]).await?;
     client.execute("create table test (id int);", &[]).await?;
     client.execute("insert into test VALUES (1);", &[]).await?;
-    client.execute("drop table test;", &[]).await?;
+    // client.execute("drop table test;", &[]).await?;
 
     // And then check that we got back the same string we sent over.
     let value: &str = rows[0].get(0);
     assert_eq!(value, "hello world");
     println!("value: {:?}", rows);
+
+    let objects = list_server_objects(&client).await?;
 
     drop(client);
 
@@ -53,11 +57,11 @@ async fn main() -> Result<(), Error> {
     for notice in notices {
         if notice.file() == Some("lock.c") && notice.message().contains("lock(") {
             // eprintln!("{}", notice.message());
-            let lock = parser.extract(notice.message());
-            if let Some(lock) = lock {
-                if !lock.is_invalid() {
-                    eprintln!("{}", lock);
-                }
+            let Some(lock) = parser.extract(notice.message()) else {
+                continue
+            };
+            if lock.is_lock_valid() {
+                eprintln!("{}", lock);
             }
         }
     }

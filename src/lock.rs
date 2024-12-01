@@ -60,7 +60,7 @@ pub struct LockTarget {
 }
 
 #[derive(Debug, derive_more::Display)]
-#[display("{name} lock={lockid:#01x} target={target} type={locktype}")]
+#[display("lock={lockid:#01x} target={target} type={locktype} name={name:?}")]
 pub struct Lock {
     name: String,
     lockid: u64,
@@ -69,8 +69,8 @@ pub struct Lock {
 }
 
 impl Lock {
-    pub fn is_invalid(&self) -> bool {
-        self.locktype == LockType::INVALID
+    pub fn is_lock_valid(&self) -> bool {
+        self.locktype != LockType::INVALID
     }
 }
 

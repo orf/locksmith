@@ -28,6 +28,9 @@ jobs:
       attestations: write
       id-token: write
 
+    env:
+      PLATFORMS: linux/amd64 #,linux/arm64
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -73,7 +76,7 @@ jobs:
           targets: ${{ matrix.pg-version }}
           pull: true
           set: |
-            *.platform=linux/amd64,linux/arm64
+            *.platform=${{ env.PLATFORMS }}
             *.cache-to=type=gha
             *.cache-from=type=gha
 
