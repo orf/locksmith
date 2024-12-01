@@ -1,3 +1,7 @@
+variable "IMAGE_REPOSITORY" {
+  default = "local-pg"
+}
+
 target "default" {
   name = "${version}"
   context    = "docker-postgres/"
@@ -12,5 +16,5 @@ target "default" {
       "17",
     ]
   }
-  tags = ["pg:${version}"]
+  tags = ["${IMAGE_REPOSITORY}:${version}"]
 }
