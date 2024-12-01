@@ -6,5 +6,6 @@ edition = "2021"
 [dependencies]
 futures-channel = "0.3.31"
 futures-util = "0.3.31"
+regex = "1.11.1"
 tokio = { version = "1.41.1", features = ["full"] }
 tokio-postgres = "0.7.12"

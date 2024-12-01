@@ -1,3 +1,5 @@
+mod lock;
+
 use tokio_postgres::{NoTls, Error, AsyncMessage};
 use futures_util::{
     future, join, pin_mut, stream, try_join, Future, FutureExt, SinkExt, StreamExt, TryStreamExt,
@@ -46,7 +48,13 @@ async fn main() -> Result<(), Error> {
         })
         .collect::<Vec<_>>()
         .await;
+    for notice in notices {
+        if notice.file() == Some("lock.c") && notice.message().contains("lock(") {
 
-    eprintln!("{notices:#?}");
+            eprintln!("{}", notice.message());
+            // eprintln!("{:#?}", notice);
+        }
+
+    }
     Ok(())
 }
