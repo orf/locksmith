@@ -1,13 +1,16 @@
 target "default" {
-  context = "docker-postgres/"
-  dockerfile = "12/bookworm/Dockerfile"
-  # contexts = {
-  # blob/master/16/bookworm/Dockerfile
-  # foo = "https://github.com/docker-library/postgres.git"
-  # }
-
-  # args = {
-  #   NODE_VERSION = "22"
-  # }
-  tags = ["foo"]
+  name = "${version}"
+  context    = "docker-postgres/"
+  dockerfile = "${version}/bookworm/Dockerfile"
+  matrix = {
+    version = [
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+    ]
+  }
+  tags = ["pg:${version}"]
 }

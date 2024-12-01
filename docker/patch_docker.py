@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 
-from pygments.lexers import shell
 from typer import Typer
 import subprocess
 
@@ -12,6 +11,12 @@ directory = Path(__file__).parent / 'docker-postgres'
 
 @app.command()
 def patch_docker():
+    print('Resetting submodules')
+    subprocess.run(
+        'git submodule foreach git reset --hard',
+        shell=True,
+    )
+
     versions_file = directory / 'versions.json'
     versions = json.loads(versions_file.read_text())
 

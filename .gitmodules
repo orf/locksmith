@@ -1,3 +1,4 @@
 [submodule "docker/docker-postgres"]
 	path = docker/docker-postgres
 	url = https://github.com/docker-library/postgres
+    ignore = dirty
