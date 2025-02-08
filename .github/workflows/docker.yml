@@ -65,6 +65,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Generate artifact attestation
+        if: ${{ github.event_name == 'tag' || github.ref_name == 'main' }}
         uses: actions/attest-build-provenance@v2
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}

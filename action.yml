@@ -1,0 +1,33 @@
+name: 'Locksmith'
+description: 'Test Postgres SQL locks'
+inputs:
+  schema:
+    description: 'Absolute path to schema file'
+    required: true
+  statements:
+    description: 'Statements to test'
+    required: true
+  output-format:
+    description: 'Format: either markdown or json'
+    default: 'markdown'
+  postgres-tag:
+    description: 'Postgres version tag to use'
+    default: '15-alpine'
+  version:
+    description: 'CLI version'
+    default: 'main'
+outputs:
+  result-path:
+    description: 'The result of the inspection'
+    value: ${{ steps.run.outputs.result-path }}
+runs:
+  using: 'composite'
+  steps:
+    - name: Run Locksmith
+      id: run
+      shell: bash
+      run: |
+        docker run -v /var/run/docker.sock:/var/run/docker.sock -v${{ github.workspace }}:${{ github.workspace }} -w${{ github.workspace }} \
+          ghcr.io/orf/locksmith:${{ inputs.version }} "${{ inputs.schema }}" "${{ inputs.statements }}" \
+          --format=${{ inputs.output-format }} --output=${{ github.workspace }}/locksmith_output --tag="${{ inputs.postgres-tag }}";
+        echo "result-path=${{ github.workspace }}/locksmith_output" >> "$GITHUB_OUTPUT"
