@@ -166,6 +166,10 @@ impl QueryOracle {
                 .context("Listing connection locks")?;
             debug!(?new_locks, "Detected {} new locks", new_locks.len());
             all_detected_locks.extend(new_locks);
+
+            // Attempt to terminate the executor connection. Not required, but prevents some
+            // spurious issues with Postgres 13 and connection limits.
+            executor.attempt_termination().await;
         }
 
         // Take a snapshot of the objects in the database after the statement has executed

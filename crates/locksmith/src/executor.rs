@@ -59,6 +59,11 @@ impl StatementExecutor {
         })
     }
 
+    /// Attempt to terminate the backend connection. This is best-effort.
+    pub async fn attempt_termination(&self) {
+        self.client.cancel_token().cancel_query(NoTls).await.ok();
+    }
+
     /// Get the connection ID for this [StatementExecutor].
     pub fn connection_id(&self) -> ConnectionID {
         self.connection_id

@@ -41,9 +41,11 @@ jobs:
           components: clippy, rustfmt
 
       - name: Run tests
-        run: cargo test --all-targets --all-features
+        run: cargo test --all-targets --all-features -- --test-threads=1 --nocapture
+        timeout-minutes: 5
         env:
           TEST_POSTGRES_TAG: "${{ matrix.postgres }}-alpine"
+          RUST_LOG: "trace"
           SQLX_OFFLINE: "1"
 
   check:
@@ -61,7 +63,6 @@ jobs:
       CC: "sccache gcc"
       CXX: "sccache gcc"
       SQLX_OFFLINE: "1"
-      RUST_LOG: "trace"
 
     steps:
       - name: Checkout sources

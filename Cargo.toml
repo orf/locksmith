@@ -5,3 +5,7 @@ members = ["crates/*"]
 [workspace.package]
 repository = "https://github.com/orf/locksmith"
 license = "MIT"
+
+[profile.release]
+lto = true
+codegen-units = 1

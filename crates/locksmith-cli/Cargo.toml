@@ -5,3 +5,19 @@ edition = "2021"
 description = "CLI for extracting Postgres locks from a given SQL statement"
 license.workspace = true
 repository.workspace = true
+readme = "../../README.md"
+
+[dependencies]
+locksmith = { path = "../locksmith", version = "0.2.0" }
+tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
+clio = { version = "0.3.5", features = ["clap-parse"] }
+clap = { version = "4.5.27", features = ["derive"] }
+anyhow = "1.0.95"
+serde_json = "1.0.138"
+tokio = { version = "1.43.0", features = ["full"] }
+tracing = { version = "0.1.41", features = ["async-await"] }
+testcontainers-modules = { version = "0.11.6", features = ["postgres", "watchdog"] }
+
+[dev-dependencies]
+assert_cmd = "2.0.16"
+serde_json = "1.0.138"
