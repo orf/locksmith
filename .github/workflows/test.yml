@@ -1,0 +1,92 @@
+---
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: test-${{ github.ref }}-${{ matrix.postgres }}
+      cancel-in-progress: true
+
+    strategy:
+      fail-fast: false
+      matrix:
+        postgres: [ "12", "13", "14", "15", "16", "17" ]
+
+    env:
+      RUST_BACKTRACE: '1'
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
+      CC: "sccache gcc"
+      CXX: "sccache gcc"
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Run sccache-cache
+        uses: mozilla-actions/sccache-action@v0.0.6
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: clippy, rustfmt
+
+      - name: Run tests
+        run: cargo test --all-targets --all-features
+        env:
+          TEST_POSTGRES_TAG: "${{ matrix.postgres }}-alpine"
+          SQLX_OFFLINE: "1"
+
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      issues: write
+
+    env:
+      RUST_BACKTRACE: '1'
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
+      CC: "sccache gcc"
+      CXX: "sccache gcc"
+      SQLX_OFFLINE: "1"
+      RUST_LOG: "trace"
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Run sccache-cache
+        uses: mozilla-actions/sccache-action@v0.0.6
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: clippy, rustfmt
+
+      - name: Run cargo fmt
+        if: always()
+        run: cargo fmt --all -- --check
+
+      # Disabled for now, while we build out the project
+
+      - name: Run cargo check
+        if: always()
+        run: cargo check --all-targets --all-features
+
+      - name: Run cargo check
+        if: always()
+        run: cargo check --all-targets --all-features
+
+      - if: always()
+        run: cargo clippy --all-targets --all-features -- -D warnings

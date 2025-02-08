@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: sqlx
+        name: sqlx
+        language: system
+        pass_filenames: false
+        entry: cargo sqlx prepare --workspace --all -- --all-targets --all-features

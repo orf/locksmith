@@ -1,0 +1,12 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "BEGIN;",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": []
+  },
+  "hash": "09d5c7e4829721a8d33975034ec970f527d10fe2957088aecdd74a4bfde43190"
+}

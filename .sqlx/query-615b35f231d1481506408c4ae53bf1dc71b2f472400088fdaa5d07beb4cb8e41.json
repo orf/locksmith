@@ -1,0 +1,32 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT table_name as \"table!\", column_name as \"name!\", data_type as \"data_type!\"\n            FROM information_schema.columns\n            WHERE table_schema = \"current_schema\"()\n              AND table_catalog = current_database()\n            order by table_name, column_name;\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "table!",
+        "type_info": "Name"
+      },
+      {
+        "ordinal": 1,
+        "name": "name!",
+        "type_info": "Name"
+      },
+      {
+        "ordinal": 2,
+        "name": "data_type!",
+        "type_info": "Varchar"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "615b35f231d1481506408c4ae53bf1dc71b2f472400088fdaa5d07beb4cb8e41"
+}

@@ -1,0 +1,2 @@
+# Ignore all JSON files in the sqlx directory
+.sqlx/*.json linguist-generated=true
