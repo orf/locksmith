@@ -1,7 +1,7 @@
-mod objects;
-mod locker;
-mod introspection;
 mod executor;
+mod introspection;
+mod locker;
+mod objects;
 mod oracle;
 
 pub use objects::*;

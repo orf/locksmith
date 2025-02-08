@@ -1,5 +1,5 @@
-use crate::ConnectionID;
 use crate::objects::{TableLock, TableObject};
+use crate::ConnectionID;
 
 pub struct Locker {}
 
@@ -8,11 +8,17 @@ impl Locker {
         todo!()
     }
 
-    pub async fn lock_tables(&mut self, tables: impl IntoIterator<Item=&TableObject>) -> anyhow::Result<()> {
+    pub async fn lock_tables(
+        &mut self,
+        tables: impl IntoIterator<Item = &TableObject>,
+    ) -> anyhow::Result<()> {
         todo!()
     }
 
-    pub async fn list_connection_locks(&mut self, connection_id: ConnectionID) -> anyhow::Result<Vec<TableLock>> {
+    pub async fn list_connection_locks(
+        &mut self,
+        connection_id: ConnectionID,
+    ) -> anyhow::Result<Vec<TableLock>> {
         todo!()
     }
 }

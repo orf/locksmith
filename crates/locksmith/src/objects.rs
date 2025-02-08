@@ -16,7 +16,7 @@ impl From<String> for Lock {
 
 #[derive(Clone, Debug, Hash, Eq, PartialEq, Serialize, Deserialize)]
 pub enum DBObject {
-    Table(TableObject)
+    Table(TableObject),
 }
 
 #[derive(Clone, Debug, Hash, Eq, PartialEq, Serialize, Deserialize)]
@@ -25,9 +25,7 @@ pub struct TableLock {
     pub lock: Lock,
 }
 
-#[derive(
-    Clone, Debug, Hash, Eq, PartialEq, Serialize, Deserialize,
-)]
+#[derive(Clone, Debug, Hash, Eq, PartialEq, Serialize, Deserialize)]
 pub struct TableObject {
     pub name: String,
 }
