@@ -8,7 +8,7 @@ repository.workspace = true
 readme = "../../README.md"
 
 [dependencies]
-locksmith = { path = "../locksmith", version = "0.2.0" }
+locksmith = { path = "../locksmith", version = "0.2.1" }
 tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
 clio = { version = "0.3.5", features = ["clap-parse"] }
 clap = { version = "4.5.27", features = ["derive", "env"] }
