@@ -1,0 +1,7 @@
+[package]
+name = "locksmith"
+version = "0.2.0"
+edition = "2021"
+description = "Extract Postgres locks from a given SQL statement"
+license.workspace = true
+repository.workspace = true
