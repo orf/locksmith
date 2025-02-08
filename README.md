@@ -15,7 +15,7 @@ With Docker:
 
 ```shell
 docker run -v /var/run/docker.sock:/var/run/docker.sock -vschema.sql:/data/schema.sql \
-  ghcr.io/gitguardian/locksmith-cli /data/test_schema.sql "drop table customers cascade;"
+  ghcr.io/orf/locksmith /data/test_schema.sql "drop table customers cascade;"
 ```
 
 # Example:

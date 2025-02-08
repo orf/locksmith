@@ -55,9 +55,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             BUILD_PROFILE=${{ (github.event_name == 'tag' || github.ref_name == 'main') && 'release' || 'dev' }}
+          # 'linux/arm64' doesn't compile due to a compiler segfault when compiling ring...
           platforms: |
             linux/amd64
-            ${{ (github.event_name == 'tag' || github.ref_name == 'main') && 'linux/arm64' || '' }}
           provenance: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
