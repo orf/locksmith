@@ -17,7 +17,7 @@ pub struct InspectedStatement {
     pub rewrites: HashSet<DBObject>,
 }
 
-struct QueryOracle {
+pub struct QueryOracle {
     dsn: String,
 }
 
@@ -199,5 +199,24 @@ impl QueryOracle {
             locks: all_detected_locks,
             rewrites,
         })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::tests::start_test_postgres;
+
+    use crate::oracle::QueryOracle;
+    use crate::InspectedStatement;
+
+    use tracing_test::traced_test;
+
+    #[traced_test]
+    #[tokio::test]
+    async fn test_simple_inspect_statement() {
+        let (_container, dsn) = start_test_postgres().await;
+        let mut oracle = QueryOracle::new(&dsn);
+        let result = oracle.inspect_statement("select 1;").await.unwrap();
+        assert_eq!(result, InspectedStatement::default())
     }
 }

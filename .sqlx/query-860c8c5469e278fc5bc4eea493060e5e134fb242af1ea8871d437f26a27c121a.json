@@ -1,0 +1,26 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT relname as \"table!\", indexrelname as \"name!\"\n            FROM pg_stat_all_indexes\n            WHERE schemaname = \"current_schema\"()\n            order by 1, 2;",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "table!",
+        "type_info": "Name"
+      },
+      {
+        "ordinal": 1,
+        "name": "name!",
+        "type_info": "Name"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      true,
+      true
+    ]
+  },
+  "hash": "860c8c5469e278fc5bc4eea493060e5e134fb242af1ea8871d437f26a27c121a"
+}

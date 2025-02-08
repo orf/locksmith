@@ -1,0 +1,26 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT table_name as \"table!\", pg_relation_filenode(table_name::text)::int as \"file_node!\"\n            FROM information_schema.tables\n            WHERE table_schema = \"current_schema\"()\n              AND table_catalog = current_database()\n            order by table_name;",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "table!",
+        "type_info": "Name"
+      },
+      {
+        "ordinal": 1,
+        "name": "file_node!",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      true,
+      null
+    ]
+  },
+  "hash": "b8bb9669c645e3ae9d67695d1fcf5f2ddcc7b9621075feef6bbade5007f93dfc"
+}

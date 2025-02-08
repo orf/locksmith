@@ -1,0 +1,28 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            select relation::regclass::text as \"table!\", mode as \"lock!\"\n            from pg_locks l\n            join pg_class c ON l.relation = c.oid\n            join pg_namespace n ON c.relnamespace = n.oid\n            WHERE l.pid = $1\n              AND n.nspname = current_schema()\n              AND c.relkind IN ('r', 'p')\n              AND l.locktype = 'relation'\n              AND l.mode IS NOT NULL\n              AND database = (SELECT oid FROM pg_database WHERE datname = current_database());\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "table!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "lock!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4"
+      ]
+    },
+    "nullable": [
+      null,
+      true
+    ]
+  },
+  "hash": "b35f0c164fba00544e7f31e109644b522f8e37202ec67d73f6b704ec34b932ee"
+}
