@@ -22,7 +22,7 @@ This statement does not take any locks.
 This statement does not have any rewrites.
 {% else %}
 {% for rewrite in rewrites %}
-- ⛔️ Table `{{ rewrite }}` is rewritten
+- ⛔️ {{ rewrite }} is rewritten
 {% endfor %}
 {% endif %}
 

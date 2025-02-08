@@ -18,6 +18,35 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock -vschema.sql:/data/schem
   ghcr.io/orf/locksmith /data/test_schema.sql "drop table customers cascade;"
 ```
 
+With GitHub Actions ([example comment](https://github.com/orf/locksmith/pull/4#issuecomment-2645984433)):
+
+```yaml
+name: Test migration
+
+on:
+  pull_request:
+
+jobs:
+  test-migration:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Locksmith Action
+        id: locksmith
+        uses: orf/locksmith@main
+        with:
+          schema: 'path-to-schema.sql'
+          statements: |
+            drop table orders;
+            alter table customers alter column id type bigint;
+      - uses: mshick/add-pr-comment@v2
+        with:
+          message-path: ${{ steps.locksmith.outputs.result-path }}
+```
+
 # Example:
 
 Given this schema:
