@@ -21,13 +21,13 @@ pub enum DBObject {
 
 #[derive(Clone, Debug, Hash, Eq, PartialEq, Serialize, Deserialize)]
 pub struct TableLock {
-    // to-do
+    pub table: TableObject,
+    pub lock: Lock,
 }
-
 
 #[derive(
     Clone, Debug, Hash, Eq, PartialEq, Serialize, Deserialize,
 )]
 pub struct TableObject {
-    // to-do
+    pub name: String,
 }
