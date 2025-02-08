@@ -2,7 +2,7 @@ mod objects;
 mod locker;
 mod introspection;
 mod executor;
-mod driver;
+mod oracle;
 
 pub use objects::*;
-pub use driver::*;
+pub use oracle::*;
