@@ -25,7 +25,7 @@ struct Args {
     query: String,
 
     /// The tag of the Postgres container to start
-    #[clap(short, long, default_value=DEFAULT_POSTGRES_TAG)]
+    #[clap(short, long, env="POSTGRES_TAG", default_value=DEFAULT_POSTGRES_TAG)]
     tag: String,
 
     /// The output file to write the inspection results to. If not provided, the results will be
