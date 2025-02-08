@@ -47,6 +47,7 @@ impl QueryOracle {
     /// type we are altering:
     /// - if the column is "binary compatible" with the new type then the operation is metadata-only
     /// - otherwise it requires a full rewrite.
+    ///
     /// Which types are binary compatible is often an implementation specific detail of the  Postgres
     /// version in use, or in the case of custom data types the implementation of the type itself.
     ///
@@ -77,7 +78,7 @@ impl QueryOracle {
     ///    which reveals the tables that the statement is trying to access. We now have an
     ///    initial set of tables that the statement is accessing.
     /// 7. We close the "executor" connection _without_ committing the transaction, and close the
-    ///   "locker" connection after. This releases the locks on the tables.
+    ///    "locker" connection after. This releases the locks on the tables.
     /// 8. We repeat steps 1 to 7, but this time only locking the tables that have *not* been
     ///    locked in the previous iterations. This allows us to detect new locks that the statement
     ///    is trying to acquire.
