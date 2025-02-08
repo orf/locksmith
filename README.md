@@ -108,6 +108,7 @@ Arguments:
 Options:
   -t, --tag <TAG>        The tag of the Postgres container to start [default: 15-alpine]
   -o, --output <OUTPUT>  The output file to write the inspection results to. If not provided, the results will be written to stdout [default: -]
+  -f, --format <FORMAT>  The output format [default: json] [possible values: json, markdown]
   -h, --help             Print help
   -V, --version          Print version
 ```

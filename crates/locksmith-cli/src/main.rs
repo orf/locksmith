@@ -1,8 +1,11 @@
 use anyhow::Context;
+use askama::Template;
 use clap::Parser;
 use clio::Output;
-use locksmith::QueryOracle;
+use itertools::Itertools;
+use locksmith::{DBObject, QueryOracle, TableLock};
 use std::io::stderr;
+use std::io::Write;
 use std::path::PathBuf;
 use testcontainers_modules::postgres::Postgres;
 use testcontainers_modules::testcontainers::{runners::AsyncRunner, ContainerAsync, ImageExt};
@@ -29,6 +32,16 @@ struct Args {
     /// written to stdout.
     #[clap(long, short, value_parser, default_value = "-")]
     output: Output,
+
+    /// The output format
+    #[clap(long, short, value_enum, default_value_t = OutputFormat::Json)]
+    format: OutputFormat,
+}
+
+#[derive(Debug, Copy, Clone, clap::ValueEnum)]
+enum OutputFormat {
+    Json,
+    Markdown,
 }
 
 #[tokio::main]
@@ -59,7 +72,31 @@ async fn main() -> anyhow::Result<()> {
         rewrites = inspected_statement.rewrites.len(),
         "Inspected statement"
     );
-    serde_json::to_writer_pretty(args.output, &inspected_statement)?;
+    let mut output = args.output;
+    match args.format {
+        OutputFormat::Json => {
+            serde_json::to_writer_pretty(output, &inspected_statement)?;
+        }
+        OutputFormat::Markdown => {
+            let comment = MarkdownComment {
+                statement: args.query,
+                added_objects: inspected_statement
+                    .added_objects
+                    .into_iter()
+                    .sorted()
+                    .collect(),
+                removed_objects: inspected_statement
+                    .removed_objects
+                    .into_iter()
+                    .sorted()
+                    .collect(),
+                locks: inspected_statement.locks.into_iter().sorted().collect(),
+                rewrites: inspected_statement.rewrites.into_iter().sorted().collect(),
+            };
+            let rendered = comment.render()?;
+            writeln!(output, "{}", rendered)?;
+        }
+    }
     Ok(())
 }
 
@@ -91,4 +128,14 @@ async fn start_postgres(
         .with_context(|| format!("Retrieving mapped port 5432 for container {id}"))?;
     let dsn = format!("postgresql://{USER}:{PASSWORD}@{host_ip}:{host_port}/postgres");
     Ok((container, dsn))
+}
+
+#[derive(Template)]
+#[template(path = "comment.md.jinja2")]
+struct MarkdownComment {
+    statement: String,
+    added_objects: Vec<DBObject>,
+    removed_objects: Vec<DBObject>,
+    locks: Vec<TableLock>,
+    rewrites: Vec<DBObject>,
 }

@@ -1,0 +1,40 @@
+# Statement
+
+```sql
+{{ statement }}
+```
+
+# Impact
+
+## Locks
+
+{% if locks.is_empty() %}
+This statement does not take any locks.
+{% else %}
+{% for lock in locks %}
+- `{{ lock.table }}` with kind `{{ lock.lock }}`
+{% endfor %}
+{% endif %}
+
+## Rewrites
+
+{% if rewrites.is_empty() %}
+This statement does not have any rewrites.
+{% else %}
+{% for rewrite in rewrites %}
+- ⛔️ Table `{{ rewrite }}` is rewritten
+{% endfor %}
+{% endif %}
+
+## Added/removed objects
+
+{% if added_objects.is_empty() && removed_objects.is_empty() %}
+This statement does not add or remove any objects.
+{% else %}
+{% for obj in added_objects %}
+- ✅ Added {{ obj }}
+{% endfor %}
+{% for obj in removed_objects %}
+- ❌ Removed {{ obj }}
+{% endfor %}
+{% endif %}

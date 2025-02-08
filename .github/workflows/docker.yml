@@ -13,11 +13,10 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-concurrency: build-docker-image
-
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
+
     permissions:
       packages: write
       contents: read
