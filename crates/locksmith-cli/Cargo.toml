@@ -16,7 +16,7 @@ anyhow = "1.0.95"
 serde_json = "1.0.138"
 tokio = { version = "1.43.0", features = ["full"] }
 tracing = { version = "0.1.41", features = ["async-await"] }
-testcontainers-modules = { version = "0.11.6", features = ["postgres", "watchdog"] }
+testcontainers-modules = { version = "0.13.0", features = ["postgres", "watchdog"] }
 askama = "0.14.0"
 itertools = "0.14.0"
 
