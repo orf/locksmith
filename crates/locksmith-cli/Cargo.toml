@@ -1,7 +1,7 @@
 [package]
 name = "locksmith-cli"
 version = "0.2.0"
-edition = "2021"
+edition = "2024"
 description = "CLI for extracting Postgres locks from a given SQL statement"
 license.workspace = true
 repository.workspace = true
@@ -17,7 +17,7 @@ serde_json = "1.0.138"
 tokio = { version = "1.43.0", features = ["full"] }
 tracing = { version = "0.1.41", features = ["async-await"] }
 testcontainers-modules = { version = "0.11.6", features = ["postgres", "watchdog"] }
-askama = "0.10.2"
+askama = "0.14.0"
 itertools = "0.14.0"
 
 [dev-dependencies]
