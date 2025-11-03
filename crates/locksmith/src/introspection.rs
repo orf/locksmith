@@ -1,7 +1,7 @@
 use crate::objects::DBObject;
 use crate::{ColumnObject, IndexObject, TableObject};
 use anyhow::Context;
-use sqlx::{query, query_as, Connection, PgConnection};
+use sqlx::{Connection, PgConnection, query, query_as};
 use std::collections::{HashMap, HashSet};
 
 /// An [Introspector] provides various introspection functions for a given Postgres database.

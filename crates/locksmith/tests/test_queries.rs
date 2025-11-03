@@ -1,5 +1,5 @@
 mod common;
-use common::{start_integration_test_postgres, TestCase};
+use common::{TestCase, start_integration_test_postgres};
 use locksmith::QueryOracle;
 use std::str::FromStr;
 use tracing_test::traced_test;

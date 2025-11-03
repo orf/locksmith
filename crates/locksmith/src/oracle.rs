@@ -210,8 +210,8 @@ impl QueryOracle {
 mod tests {
     use crate::tests::start_test_postgres;
 
-    use crate::oracle::QueryOracle;
     use crate::InspectedStatement;
+    use crate::oracle::QueryOracle;
 
     use tracing_test::traced_test;
 

@@ -4,14 +4,14 @@ use clap::Parser;
 use clio::Output;
 use itertools::Itertools;
 use locksmith::{DBObject, QueryOracle, TableLock};
-use std::io::stderr;
 use std::io::Write;
+use std::io::stderr;
 use std::path::PathBuf;
 use testcontainers_modules::postgres::Postgres;
-use testcontainers_modules::testcontainers::{runners::AsyncRunner, ContainerAsync, ImageExt};
+use testcontainers_modules::testcontainers::{ContainerAsync, ImageExt, runners::AsyncRunner};
 use tracing::info;
 use tracing::level_filters::LevelFilter;
-use tracing_subscriber::{fmt, prelude::*, EnvFilter};
+use tracing_subscriber::{EnvFilter, fmt, prelude::*};
 
 pub const DEFAULT_POSTGRES_TAG: &str = "15-alpine";
 

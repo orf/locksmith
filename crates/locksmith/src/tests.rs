@@ -1,6 +1,6 @@
+use crate::TableObject;
 use crate::introspection::Introspector;
 use crate::locker::Locker;
-use crate::TableObject;
 use anyhow::Context;
 use testcontainers_modules::postgres;
 use testcontainers_modules::postgres::Postgres;

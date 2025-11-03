@@ -1,5 +1,5 @@
 use crate::ConnectionID;
-use anyhow::{bail, Context};
+use anyhow::{Context, bail};
 use std::pin::pin;
 use tokio_postgres::tls::NoTlsStream;
 use tokio_postgres::{AsyncMessage, Client, Connection, NoTls, Socket};
@@ -198,21 +198,25 @@ mod tests {
     async fn test_is_statement_blocked() {
         let (_container, dsn) = start_test_postgres().await;
 
-        assert!(!StatementExecutor::new(&dsn)
-            .await
-            .unwrap()
-            .detect_if_statement_blocks("select * from customers")
-            .await
-            .unwrap());
+        assert!(
+            !StatementExecutor::new(&dsn)
+                .await
+                .unwrap()
+                .detect_if_statement_blocks("select * from customers")
+                .await
+                .unwrap()
+        );
 
         let _locker = lock_tables(&dsn, ["customers"]).await;
 
-        assert!(StatementExecutor::new(&dsn)
-            .await
-            .unwrap()
-            .detect_if_statement_blocks("select * from customers")
-            .await
-            .unwrap());
+        assert!(
+            StatementExecutor::new(&dsn)
+                .await
+                .unwrap()
+                .detect_if_statement_blocks("select * from customers")
+                .await
+                .unwrap()
+        );
         drop(_locker)
     }
 }

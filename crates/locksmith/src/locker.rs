@@ -1,7 +1,7 @@
-use crate::objects::{TableLock, TableObject};
 use crate::ConnectionID;
+use crate::objects::{TableLock, TableObject};
 use anyhow::Context;
-use sqlx::{query, query_as, Connection, Executor, PgConnection};
+use sqlx::{Connection, Executor, PgConnection, query, query_as};
 use tracing::trace;
 
 /// A [Locker] manages Postgres table locks in a transaction.
