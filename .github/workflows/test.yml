@@ -15,7 +15,6 @@ jobs:
 
     concurrency:
       group: test-${{ github.ref }}-${{ matrix.postgres }}
-      cancel-in-progress: true
 
     strategy:
       fail-fast: false
