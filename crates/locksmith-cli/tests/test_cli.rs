@@ -1,4 +1,4 @@
-use assert_cmd::Command;
+use assert_cmd::cargo;
 use locksmith::{InspectedStatement, Lock, TableLock};
 use std::collections::HashSet;
 
@@ -9,7 +9,7 @@ const TEST_SCHEMA_PATH: &str = concat!(
 
 #[test]
 fn test_basic_cli() {
-    let mut cmd = Command::cargo_bin("locksmith-cli").unwrap();
+    let mut cmd = cargo::cargo_bin_cmd!("locksmith-cli");
     let assert = cmd
         .arg(TEST_SCHEMA_PATH)
         .arg("select * from customers")
