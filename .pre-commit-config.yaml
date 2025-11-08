@@ -5,4 +5,4 @@ repos:
         name: sqlx
         language: system
         pass_filenames: false
-        entry: bash -c 'cd crates/locksmith/ && cargo sqlx prepare --all -- --all-targets --all-features'
+        entry: bash -c 'cd crates/locksmith/ && DATABASE_URL=postgresql:// cargo sqlx prepare --all -- --all-targets --all-features'
