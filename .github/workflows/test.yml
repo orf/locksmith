@@ -87,7 +87,7 @@ jobs:
 
       - name: Sanity check
         if: matrix.target == 'x86_64-unknown-linux-gnu' || matrix.target == 'aarch64-apple-darwin' || matrix.target == 'x86_64-pc-windows-msvc'
-        run: cargo run --target ${{ matrix.target }} -- --help
+        run: cargo run --bin=locksmith-cli --target ${{ matrix.target }} -- --help
 
       - name: Build release
         uses: houseabsolute/actions-rust-cross@v1
