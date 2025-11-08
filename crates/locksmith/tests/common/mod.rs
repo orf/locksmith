@@ -18,7 +18,7 @@ pub async fn start_integration_test_postgres() -> (ContainerAsync<Postgres>, Str
         .with_tag(postgres_tag)
         .start()
         .await
-        .context("Starting Postgres containe")
+        .context("Starting Postgres container")
         .unwrap();
     let host_ip = container.get_host().await.unwrap();
     let host_port = container.get_host_port_ipv4(5432).await.unwrap();
