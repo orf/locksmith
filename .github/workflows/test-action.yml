@@ -17,8 +17,7 @@ jobs:
         with:
           schema: 'crates/locksmith/tests/test_schema.sql'
           statements: |
-            drop table orders;
-            alter table customers alter column id type bigint;
+            ALTER TABLE orders DROP COLUMN customer_id;
       - uses: mshick/add-pr-comment@v2
         with:
           message-path: ${{ steps.locksmith.outputs.result-path }}
