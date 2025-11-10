@@ -1691,7 +1691,7 @@ dependencies = [
 
 [[package]]
 name = "locksmith"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "anyhow",
  "derive_more",
@@ -1707,7 +1707,7 @@ dependencies = [
 
 [[package]]
 name = "locksmith-cli"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "anyhow",
  "askama",
@@ -1725,7 +1725,7 @@ dependencies = [
 
 [[package]]
 name = "locksmith-graph"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "clap",
  "color-eyre",
