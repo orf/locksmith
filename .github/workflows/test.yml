@@ -111,7 +111,7 @@ jobs:
     needs:
       - build
     steps:
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           merge-multiple: true
       - name: List files
